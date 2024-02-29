@@ -1,0 +1,40 @@
+1.create card using html,css,bootstrap card
+2.from Open weather API:
+https://openweathermap.org/current 
+        1.login
+        2.copy api key
+        3.in api section go to  for city weather api
+        https://api.openweathermap.org/data/2.5/weather?q={city name}&appid={API key}
+        add city name and api key
+        https://api.openweathermap.org/data/2.5/weather?q=Bengaluru&appid=18f54abeadc84f9a534b01754fb5faa8
+3.ng g s weather
+in app.module import httpclientmodule
+/////////////in weatherservice.ts file 
+in contructor inject httpclient 
+create a method 
+constructor(private http:httpclient){ }
+
+getWeather(){
+    return this.http.get('    https://api.openweathermap.org/data/2.5/weather?q=Bengaluru&appid=18f54abeadc84f9a534b01754fb5faa8')//api inside parenthesis
+}
+//////////////in weathercomponent.ts file
+
+export class weathercomponent implements Oninit(){
+    myWeather:any;
+    temperature:number=0;
+    //get other variables to and bind using {{}} in html
+    constructor(private weatherservice:weatherservice){}
+    ngOnit:void(){
+        
+        this.weatherservice.getWeather().subscribe({
+            next:(res)=>{
+                console.log(res);
+                this.weather=res;
+                this.temperature=this.myWeather.main.temp;// as from response
+
+            },
+            error:(error)=>console.log(error.message),
+            complete:()=>console.log("api call completed")
+        })
+    }
+}
